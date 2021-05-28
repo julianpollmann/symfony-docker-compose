@@ -3,12 +3,12 @@ FROM php:8-fpm
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
-RUN docker-php-ext-install pdo_mysql
+RUN apt-get update && apt-get install -y \
+libpq-dev libzip-dev zip libicu-dev
+
+RUN docker-php-ext-install pdo pdo_pgsql
 
 RUN pecl install apcu
-
-RUN apt-get update && apt-get install -y \
-libzip-dev zip libicu-dev
 
 RUN docker-php-ext-install zip intl opcache
 RUN docker-php-ext-enable apcu
